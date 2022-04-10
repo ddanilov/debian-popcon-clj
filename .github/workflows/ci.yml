@@ -1,0 +1,17 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'liberica'
+          java-version: '11'
+      - uses: DeLaGuardo/setup-clojure@5.0
+        with:
+          cli: latest
+      - run: clojure -X:test/runner
