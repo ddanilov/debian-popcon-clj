@@ -61,6 +61,29 @@
            ["2022-04-04" 0.035])
          (sort (second relative-values)))))
 
+(deftest map-to-period-test
+  (testing "day to month/quarter/year mapping")
+  (is (= "2022-03-15"
+         (T/map-to-month "2022-03-01")))
+  (is (= "2022-02-15"
+         (T/map-to-quarter "2022-01-01")))
+  (is (= "2022-05-15"
+         (T/map-to-quarter "2022-04-01")))
+  (is (= "2022-08-15"
+         (T/map-to-quarter "2022-07-01")))
+  (is (= "2022-11-15"
+         (T/map-to-quarter "2022-10-01")))
+  (is (= "2022-06-01"
+         (T/map-to-year "2022-10-01")))
+  (is (= "2022-01-15"
+         (T/map-to-period "m" "2022-01-10")))
+  (is (= "2022-02-15"
+         (T/map-to-period "q" "2022-01-10")))
+  (is (= "2022-06-01"
+         (T/map-to-period "y" "2022-01-10")))
+  (is (= "2022-01-10"
+         (T/map-to-period "x" "2022-01-10"))))
+
 (deftest command-line-interface-test
   (testing "cli arguments and options")
   (is (= ["pkg1" "pkg2"]
