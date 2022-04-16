@@ -1,0 +1,114 @@
+{
+  "pkg1": {
+    "2022-03-01": {
+      "no_files": 2,
+      "old": 2,
+      "recent": 0,
+      "vote": 8
+    },
+    "2022-03-02": {
+      "no_files": 11,
+      "old": 0,
+      "recent": 0,
+      "vote": 0
+    },
+    "2022-03-03": {
+      "no_files": 10,
+      "old": 1,
+      "recent": 1,
+      "vote": 1
+    },
+    "2022-03-04": {
+      "no_files": 0,
+      "old": 7,
+      "recent": 3,
+      "vote": 4
+    },
+    "2022-04-01": {
+      "no_files": 0,
+      "old": 2,
+      "recent": 0,
+      "vote": 8
+    },
+    "2022-04-02": {
+      "no_files": 11,
+      "old": 0,
+      "recent": 0,
+      "vote": 0
+    },
+    "2022-04-03": {
+      "no_files": 10,
+      "old": 1,
+      "recent": 0,
+      "vote": 1
+    },
+    "2022-04-04": {
+      "no_files": 0,
+      "old": 7,
+      "recent": 3,
+      "vote": 4
+    },
+    "2022-04-05": {
+      "no_files": 4,
+      "old": 4,
+      "recent": 4,
+      "vote": 4
+    }
+  },
+  "pkg2": {
+    "2022-03-01": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 100
+    },
+    "2022-03-02": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 100
+    },
+    "2022-03-03": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 100
+    },
+    "2022-03-04": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 100
+    },
+   "2022-04-01": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 100
+    },
+    "2022-04-02": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 200
+    },
+    "2022-04-03": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 300
+    },
+    "2022-04-04": {
+      "no_files": 0,
+      "old": 0,
+      "recent": 0,
+      "vote": 400
+    },
+    "2022-04-06": {
+      "no_files": 100,
+      "old": 100,
+      "recent": 100,
+      "vote": 100
+    }
+  }
+}

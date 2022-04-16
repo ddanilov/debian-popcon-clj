@@ -1,6 +1,7 @@
 (ns popcon.plot
   (:gen-class)
-  (:require [clojure.string :as string]
+  (:require [clojure.data.json :as json]
+            [clojure.string :as string]
             [clojure.tools.cli :refer [parse-opts]])
   (:import java.net.URLEncoder))
 
@@ -12,8 +13,15 @@
     (str "https://qa.debian.org/cgi-bin/popcon-data?packages="
          (enc ref-name) "+" (string/join "+" (map enc pkg-names)))))
 
+(defn read-data [url]
+  (json/read-str (slurp url)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; prepare data set
+
+(defn collect-installations [package-name popcon-data]
+  [package-name
+   (map (juxt key (comp #(reduce + (vals %)) val)) (popcon-data package-name))])
 
 (defn prepare-data-set [ref-name pkg-names]
   (let [url (popcon-url ref-name pkg-names)]
