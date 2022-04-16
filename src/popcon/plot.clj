@@ -25,7 +25,25 @@
 
 (defn prepare-data-set [ref-name pkg-names]
   (let [url (popcon-url ref-name pkg-names)]
-    (println "data url         :" url)))
+    (println "data url         :" url)
+    (let [data (read-data url)
+          ref-data (collect-installations ref-name data)
+          pkg-data-set (map #(collect-installations % data) pkg-names)]
+      (cons ref-data pkg-data-set))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; output
+
+(defn print-recent-data [data-set N]
+  (doseq [[name data] data-set]
+    (println (str "=== " name " ==="))
+    (doseq [[d v] (take (min N (count data)) data)]
+      (println d v))))
+
+(defn print-and-write [ref-name pkg-names]
+  (let [data-set (prepare-data-set ref-name pkg-names)]
+    (println "recent data:")
+    (print-recent-data data-set 10)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; command line interface
@@ -45,4 +63,4 @@
     (println "reference package:" ref-name)
     (println "packages         :" (string/join " " pkg-names))
     (println "average period   :" period)
-    (prepare-data-set ref-name pkg-names)))
+    (print-and-write ref-name pkg-names)))
