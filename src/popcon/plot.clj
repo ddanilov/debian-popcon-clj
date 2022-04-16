@@ -8,7 +8,7 @@
 ;; reading data
 
 (defn popcon-url [ref-name pkg-names]
-  (let [enc (fn [s] (URLEncoder/encode s "UTF-8"))]
+  (let [enc #(URLEncoder/encode % "UTF-8")]
     (str "https://qa.debian.org/cgi-bin/popcon-data?packages="
          (enc ref-name) "+" (string/join "+" (map enc pkg-names)))))
 
