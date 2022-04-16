@@ -46,7 +46,7 @@
              ["2022-04-06" 400])
            (sort (second pkg2-data))))))
 
-(deftest command-line-interface
+(deftest command-line-interface-test
   (testing "cli arguments and options")
   (is (= ["pkg1" "pkg2"]
          (:arguments (T/parse-cli ["pkg1" "pkg2"]))))
