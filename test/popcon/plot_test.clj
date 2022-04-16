@@ -84,6 +84,13 @@
   (is (= "2022-01-10"
          (T/map-to-period "x" "2022-01-10"))))
 
+(deftest average-test
+  (testing "average data over a period")
+  (is (= "pkg1[m]" (first (T/average "m" relative-values))))
+  (is (= '(["2022-04-15" 0.0575]
+           ["2022-03-15" 0.125])
+         (second (T/average "m" relative-values)))))
+
 (deftest command-line-interface-test
   (testing "cli arguments and options")
   (is (= ["pkg1" "pkg2"]

@@ -57,6 +57,10 @@
   [(str pkg-name "[" period "]")
    (->> pkg-data
         (map (juxt #(map-to-period period (first %)) second) ,,)
+        (group-by first ,,)
+        (map (juxt first
+                   (fn [x] (#(/ (reduce + %) (count %)) (map second (second x)))))
+             ,,)
         (sort ,,)
         (reverse ,,))])
 
