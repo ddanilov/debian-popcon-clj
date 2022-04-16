@@ -13,6 +13,13 @@
          (enc ref-name) "+" (string/join "+" (map enc pkg-names)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; prepare data set
+
+(defn prepare-data-set [ref-name pkg-names]
+  (let [url (popcon-url ref-name pkg-names)]
+    (println "data url         :" url)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; command line interface
 
 (defn parse-cli [args]
@@ -30,5 +37,4 @@
     (println "reference package:" ref-name)
     (println "packages         :" (string/join " " pkg-names))
     (println "average period   :" period)
-    (let [url (popcon-url ref-name pkg-names)]
-      (println "data url         :" url))))
+    (prepare-data-set ref-name pkg-names)))
