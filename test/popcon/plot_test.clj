@@ -46,6 +46,21 @@
              ["2022-04-06" 400])
            (sort (second pkg2-data))))))
 
+(def relative-values (T/compute-relative (second pkg2-data) pkg1-data))
+
+(deftest compute-relative-test
+  (testing "relative ratio of package installations to reference")
+  (is (= "pkg1" (first relative-values)))
+  (is (= '(["2022-03-01" 0.120]
+           ["2022-03-02" 0.110]
+           ["2022-03-03" 0.130]
+           ["2022-03-04" 0.140]
+           ["2022-04-01" 0.100]
+           ["2022-04-02" 0.055]
+           ["2022-04-03" 0.040]
+           ["2022-04-04" 0.035])
+         (sort (second relative-values)))))
+
 (deftest command-line-interface-test
   (testing "cli arguments and options")
   (is (= ["pkg1" "pkg2"]

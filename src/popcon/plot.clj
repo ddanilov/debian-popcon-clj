@@ -23,13 +23,21 @@
   [package-name
    (map (juxt key (comp #(reduce + (vals %)) val)) (popcon-data package-name))])
 
+(defn compute-relative [ref-data [pkg-name pkg-data]]
+  (let [r (into {} ref-data)
+        p (into {} pkg-data)
+        x (select-keys p (keys r))]
+    [pkg-name
+     (map (juxt first #(double (/ (second %) (r (first %))))) x)]))
+
 (defn prepare-data-set [ref-name pkg-names]
   (let [url (popcon-url ref-name pkg-names)]
     (println "data url         :" url)
     (let [data (read-data url)
-          ref-data (collect-installations ref-name data)
-          pkg-data-set (map #(collect-installations % data) pkg-names)]
-      (cons ref-data pkg-data-set))))
+          ref-data (second (collect-installations ref-name data))
+          pkg-data-set (map #(collect-installations % data) pkg-names)
+          rel-data-set (map #(compute-relative ref-data %) pkg-data-set)]
+      rel-data-set)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; output
@@ -38,7 +46,7 @@
   (doseq [[name data] data-set]
     (println (str "=== " name " ==="))
     (doseq [[d v] (take (min N (count data)) data)]
-      (println d v))))
+      (println (format "%s\t%.2e" d v)))))
 
 (defn print-and-write [ref-name pkg-names]
   (let [data-set (prepare-data-set ref-name pkg-names)]
