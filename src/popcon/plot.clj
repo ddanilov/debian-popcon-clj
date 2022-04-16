@@ -1,6 +1,7 @@
 (ns popcon.plot
   (:gen-class)
   (:require [clojure.data.json :as json]
+            [clojure.java.io :as io]
             [clojure.string :as string]
             [clojure.tools.cli :refer [parse-opts]])
   (:import java.net.URLEncoder))
@@ -75,7 +76,7 @@
           pkg-data-set (map #(collect-installations % data) pkg-names)
           rel-data-set (map #(compute-relative ref-data %) pkg-data-set)
           avg-data-set (map #(average period %) rel-data-set)]
-      avg-data-set)))
+      [ref-name avg-data-set])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; output
@@ -86,10 +87,20 @@
     (doseq [[d v] (take (min N (count data)) data)]
       (println (format "%s\t%.2e" d v)))))
 
+(defn write-data [[ref-name data-set]]
+  (doseq [[pkg-name pkg-data] data-set]
+    (let [file-name (str ref-name "_" pkg-name ".txt")]
+      (println file-name)
+      (with-open [wrtr (io/writer file-name)]
+        (doseq [[d v] pkg-data]
+          (.write wrtr (format "%s\t%.3e\n" d v)))))))
+
 (defn print-and-write [period ref-name pkg-names]
   (let [data-set (prepare-data-set period ref-name pkg-names)]
     (println "recent data:")
-    (print-recent-data data-set 10)))
+    (print-recent-data (second data-set) 10)
+    (println "writing data:")
+    (write-data data-set)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; command line interface
