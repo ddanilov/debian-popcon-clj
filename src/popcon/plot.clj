@@ -76,7 +76,7 @@
           pkg-data-set (map #(collect-installations % data) pkg-names)
           rel-data-set (map #(compute-relative ref-data %) pkg-data-set)
           avg-data-set (map #(average period %) rel-data-set)]
-      [ref-name avg-data-set])))
+      avg-data-set)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; output
@@ -98,9 +98,9 @@
 (defn print-and-write [period ref-name pkg-names]
   (let [data-set (prepare-data-set period ref-name pkg-names)]
     (println "recent data:")
-    (print-recent-data (second data-set) 10)
+    (print-recent-data data-set 10)
     (println "writing data:")
-    (write-data data-set)))
+    (write-data [ref-name data-set])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; command line interface
