@@ -70,14 +70,14 @@
 ;; prepare data set
 
 (defn prepare-data-set [period ref-name pkg-names]
-  (let [url (popcon-url ref-name pkg-names)]
+  (let [url (popcon-url ref-name pkg-names)
+        data (read-data url)
+        ref-data (second (collect-installations ref-name data))]
     (println "data url         :" url)
-    (let [data (read-data url)
-          ref-data (second (collect-installations ref-name data))
-          pkg-data-set (map #(collect-installations % data) pkg-names)
-          rel-data-set (map #(compute-relative ref-data %) pkg-data-set)
-          avg-data-set (map #(average period %) rel-data-set)]
-      avg-data-set)))
+    (->> pkg-names
+         (map #(collect-installations % data) ,,)
+         (map #(compute-relative ref-data %) ,,)
+         (map #(average period %) ,,))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; output
