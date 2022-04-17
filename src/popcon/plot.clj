@@ -3,7 +3,8 @@
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojure.string :as string]
-            [clojure.tools.cli :refer [parse-opts]])
+            [clojure.tools.cli :refer [parse-opts]]
+            [oz.core :as oz])
   (:import java.net.URLEncoder))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -95,10 +96,30 @@
         (doseq [[d v] pkg-data]
           (.write wrtr (format "%s\t%.3e\n" d v)))))))
 
-(defn print-and-write [period ref-name pkg-names]
+(defn plot-description [[ref-name data-set]]
+  (let [plot-data (fn [[pkg-name pkg-data]]
+                    (map (fn [[d v]] {:date d :value v :package pkg-name}) pkg-data))
+        line-layer {:mark {:type "line" :interpolate "natural"}
+                    :encoding {:x {:field "date"
+                                   :type "temporal"
+                                   :title nil}
+                               :y {:field "value"
+                                   :type "quantitative"
+                                   :title (str "package / " ref-name)
+                                   :scale {:zero false}}
+                               :color {:field "package" :type "nominal"}}}
+        point-layer (assoc line-layer :mark {:type "circle" :size 100})]
+    {:data {:values (flatten (map plot-data data-set))}
+     :width 1200 :height 800
+     :config {:legend {:labelFontSize 20 :titleFontSize 20}
+              :axis {:labelFontSize 20 :titleFontSize 20}}
+     :layer (list line-layer point-layer)}))
+
+(defn plot-and-write [period ref-name pkg-names]
   (let [data-set (prepare-data-set period ref-name pkg-names)]
     (println "recent data:")
     (print-recent-data data-set 10)
+    (oz/view! (plot-description [ref-name data-set]))
     (println "writing data:")
     (write-data [ref-name data-set])))
 
@@ -120,4 +141,4 @@
     (println "reference package:" ref-name)
     (println "packages         :" (string/join " " pkg-names))
     (println "average period   :" period)
-    (print-and-write period ref-name pkg-names)))
+    (plot-and-write period ref-name pkg-names)))
