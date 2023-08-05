@@ -10,7 +10,8 @@
                          :main-opts ["-m" "cognitect.test-runner"]
                          :exec-fn cognitect.test-runner.api/test}
            :test/kaocha {:extra-paths ["test" "resources"]
-                         :extra-deps {lambdaisland/kaocha {:mvn/version "1.85.1342"}}
+                         :extra-deps {lambdaisland/kaocha {:mvn/version "1.85.1342"}
+                                      lambdaisland/kaocha-cloverage {:mvn/version "1.1.89"}}
                          :main-opts   ["-m" "kaocha.runner"]
                          :exec-fn kaocha.runner/exec-fn
                          :exec-args {}}}}
