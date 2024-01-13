@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/ddanilov/debian-popcon-clj/badge.svg)](https://coveralls.io/github/ddanilov/debian-popcon-clj)
+
 # Intro
 
 This is a `clojure` script to plot [Debian Popularity
